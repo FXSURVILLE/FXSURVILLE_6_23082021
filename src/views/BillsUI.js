@@ -19,9 +19,15 @@ const row = (bill) => {
     `)
   }
 
+
 const rows = (data) => {
+  // Tri suivant dates
+  data.sort(function(a,b){
+    return new Date(b.date) - new Date(a.date);
+  });
   return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
 }
+
 
 export default ({ data: bills, loading, error }) => {
   
