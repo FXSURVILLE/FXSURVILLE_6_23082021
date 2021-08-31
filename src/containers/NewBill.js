@@ -20,7 +20,9 @@ export default class NewBill {
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     const extAllowed = /(\.jpg|\.jpeg|\.png)$/i; 
+    const borderFile = document.querySelector(`input[data-testid="file"]`);
     if (extAllowed.exec(file.name)){
+      borderFile.classList.remove("red-border");
       this.firestore
         .storage
         .ref(`justificatifs/${fileName}`)
@@ -31,9 +33,10 @@ export default class NewBill {
           this.fileName = fileName
         })
         document.getElementById("btn-send-bill").disabled = false;
-      alert (fileName)
+      alert (fileName+' added')
     } else {
       document.getElementById("btn-send-bill").disabled = true;
+      borderFile.classList.add("red-border");
       alert ("merci d'utiliser l'un des formats valides (jpg, jpeg ou png")}
   }
   handleSubmit = e => {
