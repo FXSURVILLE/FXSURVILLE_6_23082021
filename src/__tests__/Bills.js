@@ -9,6 +9,18 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = html
       //to-do write expect expression
     })
+  
+    test("Then, it should render Loading...", () => {
+      const html = BillsUI({ loading: true });
+      document.body.innerHTML = html;
+      expect(screen.getAllByText("Loading...")).toBeTruthy();
+    });
+    test("Then, it should render ErrorPage", () => {
+      const html = BillsUI({ error: true });
+      document.body.innerHTML = html;
+      expect(screen.getAllByText('Erreur')).toBeTruthy()
+    });
+
     test("Then bills should be ordered from earliest to latest", () => {
       const html = BillsUI({ data: bills })
       document.body.innerHTML = html
