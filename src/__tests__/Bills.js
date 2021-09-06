@@ -36,62 +36,58 @@ describe("Given I am connected as an employee", () => {
     })
   })
 
-  // describe("When I click on the button new bill", () => {
-  //   test("Then, the modal new bill should open", () => {
-  //     Object.defineProperty(window, "localStorage", { value: localStorageMock })
-  //     window.localStorage.setItem("user", JSON.stringify({
-  //       type: "Employee"
-  //     }))
-  //     const html = BillsUI({ data: bills })
-  //     document.body.innerHTML = html
-  //     const onNavigate = (pathname) => {
-  //       document.body.innerHTML = ROUTES({ pathname })
-  //     }
-  //     screen.debug()
-  //     const firestore = null
-  //     const bill = new Bills({
-  //       document, onNavigate, firestore, bills, localStorage: window.localStorage
-  //     })
-  //     const btnNewBill = jest.fn(bill.handleClickIconEye)
-  //     const button = screen.getByTestId('btn-new-bill')
-  //     button.addEventListener("click", btnNewBill)
-  //     userEvent.click(button)
-  //     expect(btnNewBill).toHaveBeenCalled()
+  describe("When I click on the button new bill", () => {
+    test("Then, the modal new bill should open", () => {
+      Object.defineProperty(window, "localStorage", { value: localStorageMock })
+      window.localStorage.setItem("user", JSON.stringify({
+        type: "Employee"
+      }))
+      const html = BillsUI({ data: bills })
+      document.body.innerHTML = html
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+      const firestore = null
+      const newBill = new Bills({
+        document, onNavigate, firestore, localStorage: window.localStorage
+      })
+      const btnNewBill = jest.fn(newBill.handleClickNewBill)
+      const button = screen.getByTestId('btn-new-bill')
+      button.addEventListener("click", btnNewBill)
+      fireEvent.click(button)
+      expect(document.getElementsByClassName("content-title")).toBeTruthy()
+    })
+  })
 
-  //     const modale = screen.getByTestId("modaleFileEmployee")
-  //     expect(modale).toBeTruthy()
-  //   })
-  // })
+  describe("When I click on the icon eye", () => {
+    test("Then, preview should open", () => {
+      Object.defineProperty(window, "localStorage", { value: localStorageMock })
+      window.localStorage.setItem("user", JSON.stringify({
+        type: "Employee"
+      }))
+      const html = BillsUI({ data: bills})
+      document.body.innerHTML = html
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+      // const firestore = null
+      const bill = new Bills({
+        document, onNavigate, firestore:null, localStorage: window.localStorage
+      })
 
-  // describe("When I click on the icon eye", () => {
-  //   test("Then, preview should open", () => {
-  //     Object.defineProperty(window, "localStorage", { value: localStorageMock })
-  //     window.localStorage.setItem("user", JSON.stringify({
-  //       type: "Employee"
-  //     }))
-  //     const html = BillsUI({ data: bills})
-  //     document.body.innerHTML = html
-  //     const onNavigate = (pathname) => {
-  //       document.body.innerHTML = ROUTES({ pathname })
-  //     }
-  //     // const firestore = null
-  //     const bill = new Bills({
-  //       document, onNavigate, firestore:null, localStorage: window.localStorage
-  //     })
+      $.fn.modal=jest.fn()
 
-  //     $.fn.modal=jest.fn()
+      const handleClickIconEye = jest.fn(() => bill.handleClickIconEye)
+      // screen.debug()
+      const eye = screen.queryAllByTestId('icon-eye')
+      eye[0].addEventListener("click", handleClickIconEye)
+      fireEvent.click(eye[0])
+      expect(handleClickIconEye).toHaveBeenCalled()
 
-  //     const handleClickIconEye = jest.fn(event => bill.handleClickIconEye(event))
-  //     // screen.debug()
-  //     const eye = screen.queryAllByTestId('icon-eye')
-  //     eye[3].addEventListener("click", handleClickIconEye)
-  //     fireEvent.click(eye[3])
-  //     expect(handleClickIconEye).toHaveBeenCalled()
-
-  //     const modale = screen.getByTestId("modaleFileEmployee")
-  //     expect(modale).toBeTruthy()
-  //   })
-  // })
+      const modale = screen.getByTestId("modaleFileEmployee")
+      expect(modale).toBeTruthy()
+    })
+  })
 
 })
 
