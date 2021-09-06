@@ -1,5 +1,10 @@
-import { screen } from "@testing-library/dom"
+import { screen, fireEvent } from "@testing-library/dom"
+// import userEvent from '@testing-library/user-event'
 import BillsUI from "../views/BillsUI.js"
+import Bills from "../containers/Bills.js"
+import { ROUTES } from "../constants/routes"
+import { localStorageMock } from "../__mocks__/localStorage.js"
+import firebase from "../__mocks__/firebase"
 import { bills } from "../fixtures/bills.js"
 
 describe("Given I am connected as an employee", () => {
@@ -28,6 +33,94 @@ describe("Given I am connected as an employee", () => {
       const antiChrono = (a, b) => ((a < b) ? 1 : -1)
       const datesSorted = [...dates].sort(antiChrono)
       expect(dates).toEqual(datesSorted)
+    })
+  })
+
+  // describe("When I click on the button new bill", () => {
+  //   test("Then, the modal new bill should open", () => {
+  //     Object.defineProperty(window, "localStorage", { value: localStorageMock })
+  //     window.localStorage.setItem("user", JSON.stringify({
+  //       type: "Employee"
+  //     }))
+  //     const html = BillsUI({ data: bills })
+  //     document.body.innerHTML = html
+  //     const onNavigate = (pathname) => {
+  //       document.body.innerHTML = ROUTES({ pathname })
+  //     }
+  //     screen.debug()
+  //     const firestore = null
+  //     const bill = new Bills({
+  //       document, onNavigate, firestore, bills, localStorage: window.localStorage
+  //     })
+  //     const btnNewBill = jest.fn(bill.handleClickIconEye)
+  //     const button = screen.getByTestId('btn-new-bill')
+  //     button.addEventListener("click", btnNewBill)
+  //     userEvent.click(button)
+  //     expect(btnNewBill).toHaveBeenCalled()
+
+  //     const modale = screen.getByTestId("modaleFileEmployee")
+  //     expect(modale).toBeTruthy()
+  //   })
+  // })
+
+  // describe("When I click on the icon eye", () => {
+  //   test("Then, preview should open", () => {
+  //     Object.defineProperty(window, "localStorage", { value: localStorageMock })
+  //     window.localStorage.setItem("user", JSON.stringify({
+  //       type: "Employee"
+  //     }))
+  //     const html = BillsUI({ data: bills})
+  //     document.body.innerHTML = html
+  //     const onNavigate = (pathname) => {
+  //       document.body.innerHTML = ROUTES({ pathname })
+  //     }
+  //     // const firestore = null
+  //     const bill = new Bills({
+  //       document, onNavigate, firestore:null, localStorage: window.localStorage
+  //     })
+
+  //     $.fn.modal=jest.fn()
+
+  //     const handleClickIconEye = jest.fn(event => bill.handleClickIconEye(event))
+  //     // screen.debug()
+  //     const eye = screen.queryAllByTestId('icon-eye')
+  //     eye[3].addEventListener("click", handleClickIconEye)
+  //     fireEvent.click(eye[3])
+  //     expect(handleClickIconEye).toHaveBeenCalled()
+
+  //     const modale = screen.getByTestId("modaleFileEmployee")
+  //     expect(modale).toBeTruthy()
+  //   })
+  // })
+
+})
+
+// test d'intégration GET
+describe("Given I am a user connected as Employee", () => {
+  describe("When I navigate to Bills", () => {
+    test("fetches bills from mock API GET", async () => {
+       const getSpy = jest.spyOn(firebase, "get")
+       const bills = await firebase.get()
+       expect(getSpy).toHaveBeenCalledTimes(1)
+       expect(bills.data.length).toBe(4)
+    })
+    test("fetches bills from an API and fails with 404 message error", async () => {
+      firebase.get.mockImplementationOnce(() =>
+        Promise.reject(new Error("Erreur 404"))
+      )
+      const html = BillsUI({ error: "Erreur 404" })
+      document.body.innerHTML = html
+      const message = await screen.getByText(/Erreur 404/)
+      expect(message).toBeTruthy()
+    })
+    test("fetches messages from an API and fails with 500 message error", async () => {
+      firebase.get.mockImplementationOnce(() =>
+        Promise.reject(new Error("Erreur 500"))
+      )
+      const html = BillsUI({ error: "Erreur 500" })
+      document.body.innerHTML = html
+      const message = await screen.getByText(/Erreur 500/)
+      expect(message).toBeTruthy()
     })
   })
 })
