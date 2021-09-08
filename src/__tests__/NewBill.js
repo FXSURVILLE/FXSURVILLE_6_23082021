@@ -7,8 +7,8 @@ import { localStorageMock } from "../__mocks__/localStorage.js"
 import firebase from "../__mocks__/firebase.js"
 
 
-describe("Given I am connected as an employee", () => {
-  describe("When I am on NewBill Page", () => {
+describe("Given I am connected as an employee ", () => {
+  describe("When I arrived on NewBill Page", () => {
     test("Then, I check expected page", () => {
       const html = NewBillUI()
       document.body.innerHTML = html;
@@ -21,11 +21,11 @@ describe("Given I am connected as an employee", () => {
       expect(inputTransport).toBeTruthy()
       expect(screen.getAllByText("Type de dépense")).toBeTruthy();
     })
-    test("Then, I check expected page", () => {
-      const html = NewBillUI()
-      document.body.innerHTML = html;
-      expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
-    })
+  })
+})
+
+describe("Given I am on NewBill Page", () => {
+  describe("When I want to submit", () => {
     test("Then, I click on the submit button", () => {
       Object.defineProperty(window, "localStorage", { value: localStorageMock })
       window.localStorage.setItem("user", JSON.stringify({
