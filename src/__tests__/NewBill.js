@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/dom"
+import { screen, fireEvent } from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import NewBillUI from "../views/NewBillUI.js"
 import NewBill from "../containers/NewBill.js"
@@ -9,10 +9,42 @@ import firebase from "../__mocks__/firebase.js"
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
-    test("Then ...", () => {
+    test("Then, I check expected page", () => {
+      const html = NewBillUI()
+      document.body.innerHTML = html;
+      expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
+    })
+    test("Then, I check expected transport input", () => {
+      const html = NewBillUI()
+      document.body.innerHTML = html;
+      const inputTransport = screen.queryByTestId("expense-type")
+      expect(inputTransport).toBeTruthy()
+      expect(screen.getAllByText("Type de dépense")).toBeTruthy();
+    })
+    test("Then, I check expected page", () => {
+      const html = NewBillUI()
+      document.body.innerHTML = html;
+      expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
+    })
+    test("Then, I click on the submit button", () => {
+      Object.defineProperty(window, "localStorage", { value: localStorageMock })
+      window.localStorage.setItem("user", JSON.stringify({
+        type: "Employee"
+      }))
       const html = NewBillUI()
       document.body.innerHTML = html
-      //to-do write assertion
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+      // const firestore = null
+      const newBill = new NewBill({
+        document, onNavigate, firestore: null, localStorage: window.localStorage
+      })
+      const handleSubmit = jest.fn(newBill.handleSubmit)
+      const submitNewBill = screen.getByTestId('form-new-bill')
+      submitNewBill.addEventListener("submit", handleSubmit)
+      fireEvent.submit(submitNewBill)
+      expect(handleSubmit).toHaveBeenCalled();
     })
   })
 })

@@ -51,10 +51,10 @@ describe("Given I am connected as an employee", () => {
       const newBill = new Bills({
         document, onNavigate, firestore, localStorage: window.localStorage
       })
-      const btnNewBill = jest.fn(newBill.handleClickNewBill)
-      const button = screen.getByTestId('btn-new-bill')
-      button.addEventListener("click", btnNewBill)
-      fireEvent.click(button)
+      const handleClickNewBill = jest.fn(newBill.handleClickNewBill)
+      const buttonNewBill = screen.getByTestId('btn-new-bill')
+      buttonNewBill.addEventListener("click", handleClickNewBill)
+      fireEvent.click(buttonNewBill)
       expect(document.getElementsByClassName("content-title")).toBeTruthy()
     })
   })
