@@ -23,21 +23,22 @@ export default class NewBill {
     const borderFile = document.querySelector(`input[data-testid="file"]`);
     if (extAllowed.exec(file.name)){
       borderFile.classList.remove("red-border");
-      this.firestore
-        .storage
-        .ref(`justificatifs/${fileName}`)
-        .put(file)
-        .then(snapshot => snapshot.ref.getDownloadURL())
-        .then(url => {
-          this.fileUrl = url
-          this.fileName = fileName
-        })
-        document.getElementById("btn-send-bill").disabled = false;
+      if (this.firestore) {
+        this.firestore
+          .storage
+          .ref(`justificatifs/${fileName}`)
+          .put(file)
+          .then(snapshot => snapshot.ref.getDownloadURL())
+          .then(url => {
+            this.fileUrl = url
+            this.fileName = fileName
+          })}
+      document.getElementById("btn-send-bill").disabled = false;
       alert (fileName+' added')
     } else {
       document.getElementById("btn-send-bill").disabled = true;
       borderFile.classList.add("red-border");
-      alert ("merci d'utiliser l'un des formats valides (jpg, jpeg ou png")}
+      alert ("merci d'utiliser l'un des formats valides (jpg, jpeg ou png)")}
   }
   handleSubmit = e => {
     e.preventDefault()

@@ -15,12 +15,45 @@ describe("Given I am connected as an employee ", () => {
       document.body.innerHTML = html;
       expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
     })
-    test("Then, I check expected transport input", () => {
+    test("Then, I check expected inputs", () => {
       const html = NewBillUI()
       document.body.innerHTML = html;
-      const inputTransport = screen.queryByTestId("expense-type")
-      expect(inputTransport).toBeTruthy()
+      // Type de dépense
+      const inputType = screen.queryByTestId("expense-type")
+      expect(inputType).toBeTruthy()
       expect(screen.getAllByText("Type de dépense")).toBeTruthy();
+      // Nom de la dépense
+      const inputNom = screen.queryByTestId("expense-name")
+      expect(inputNom).toBeTruthy()
+      expect(screen.getAllByText("Nom de la dépense")).toBeTruthy();
+      // Date
+      const inputDate = screen.queryByTestId("datepicker")
+      expect(inputDate).toBeTruthy()
+      expect(screen.getAllByText("Date")).toBeTruthy();
+      // Montant TTC
+      const inputMontant = screen.queryByTestId("amount")
+      expect(inputMontant).toBeTruthy()
+      expect(screen.getAllByText("Montant TTC")).toBeTruthy();
+      // TVA
+      const inputTVA1 = screen.queryByTestId("vat")
+      expect(inputTVA1).toBeTruthy()
+      const inputTVA2 = screen.queryByTestId("pct")
+      expect(inputTVA2).toBeTruthy()
+      expect(screen.getAllByText("TVA")).toBeTruthy();
+      // Commentaire
+      const inputCommentaire = screen.queryByTestId("commentary")
+      expect(inputCommentaire).toBeTruthy()
+      expect(screen.getAllByText("Commentaire")).toBeTruthy();
+      // Justificatif
+      const inputJustificatif = screen.queryByTestId("file")
+      expect(inputJustificatif).toBeTruthy()
+      expect(screen.getAllByText("Justificatif")).toBeTruthy();
+    })
+    test("Then, I check send btn", () => {
+      const html = NewBillUI()
+      document.body.innerHTML = html;
+      const sendBtn = document.getElementById("btn-send-bill")
+      expect(sendBtn).toBeTruthy();
     })
   })
 })
