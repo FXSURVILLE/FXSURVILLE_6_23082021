@@ -7,6 +7,7 @@ import { localStorageMock } from "../__mocks__/localStorage.js"
 import firebase from "../__mocks__/firebase.js"
 
 
+// test ouverture page
 describe("Given I am connected as an employee ", () => {
   describe("When I arrived on NewBill Page", () => {
     test("Then, I check expected page", () => {
@@ -24,7 +25,64 @@ describe("Given I am connected as an employee ", () => {
   })
 })
 
+// test fichiers
 describe("Given I am on NewBill Page", () => {
+  describe("When I add a new file", () => {
+    test("Then, I choose a bad file type", () => {
+      Object.defineProperty(window, "localStorage", { value: localStorageMock })
+      window.localStorage.setItem("user", JSON.stringify({
+        type: "Employee"
+      }))
+      const html = NewBillUI()
+      document.body.innerHTML = html
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+      // const firestore = null
+      const newBill = new NewBill({
+        document, onNavigate, firestore: null, localStorage: window.localStorage
+      })
+      const newFile = screen.getByTestId("file");
+      const handleChangeFile = jest.fn(newBill.handleChangeFile)
+      newFile.addEventListener("change", handleChangeFile)
+      fireEvent.change(newFile, {
+        target: {
+          files: [new File(["doc1"], "doc1.pdf", { type: "pdf/pdf" })],
+        },
+      })
+      expect(handleChangeFile).toHaveBeenCalled()
+      const btnSendBill = document.getElementById('btn-send-bill')
+      expect(btnSendBill.disabled).toBeTruthy()
+    })
+    test("Then, I choose a good document type", () => {
+      Object.defineProperty(window, "localStorage", { value: localStorageMock })
+      window.localStorage.setItem("user", JSON.stringify({
+        type: "Employee"
+      }))
+      const html = NewBillUI()
+      document.body.innerHTML = html
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+      // const firestore = null
+      const newBill = new NewBill({
+        document, onNavigate, firestore: null, localStorage: window.localStorage
+      })
+      const newFile = screen.getByTestId("file");
+      const handleChangeFile = jest.fn(newBill.handleChangeFile)
+      newFile.addEventListener("change", handleChangeFile)
+      fireEvent.change(newFile, {
+        target: {
+          files: [new File(["doc2"], "doc2.jpg", { type: "image/jpeg" })],
+        },
+      })
+      expect(handleChangeFile).toHaveBeenCalled()
+      const btnSendBill = document.getElementById('btn-send-bill')
+      expect(btnSendBill.disabled).toBe(false)
+    })
+  })
+
+  // test submit
   describe("When I want to submit", () => {
     test("Then, I click on the submit button", () => {
       Object.defineProperty(window, "localStorage", { value: localStorageMock })
