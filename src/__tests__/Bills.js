@@ -10,9 +10,14 @@ import { bills } from "../fixtures/bills.js"
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", () => {
+      Object.defineProperty(window, "localStorage", { value: localStorageMock })
+      window.localStorage.setItem("user", JSON.stringify({
+        type: "Employee"
+      }))
       const html = BillsUI({ data: []})
       document.body.innerHTML = html
-      //to-do write expect expression
+      const iconWindow = screen.getByTestId("icon-window")
+      expect(iconWindow.classList.contains("active-icon")).toBeTruthy()
     })
   
     test("Then, it should render Loading...", () => {
