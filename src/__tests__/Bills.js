@@ -16,8 +16,8 @@ describe("Given I am connected as an employee", () => {
       }))
       const html = BillsUI({ data: []})
       document.body.innerHTML = html
-      const iconWindow = screen.getByTestId("icon-window")
-      expect(iconWindow.classList.contains("active-icon")).toBeTruthy()
+      const iconActive = screen.getByTestId("icon-window")
+      expect(iconActive.classList.contains("active-icon")).toBeTruthy
     })
   
     test("Then, it should render Loading...", () => {
