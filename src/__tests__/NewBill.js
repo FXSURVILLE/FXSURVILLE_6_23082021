@@ -15,6 +15,18 @@ describe("Given I am connected as an employee ", () => {
       document.body.innerHTML = html;
       expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
     })
+    test("Then bill icon in vertical layout should be highlighted", () => {
+      Object.defineProperty(window, "localStorage", { value: localStorageMock })
+      window.localStorage.setItem("user", JSON.stringify({
+        type: "Employee"
+      }))
+      const html = NewBillUI()
+      document.body.innerHTML = html
+      const iconActive = screen.getByTestId("icon-mail")
+      expect(iconActive.classList.contains("active-icon")).toBeTruthy
+      // const iconActives = screen.getByTestId("icon-window")
+      // expect(iconActives.classList.contains("active-icon")).not.toBeTruthy
+    })
     test("Then, I check expected inputs", () => {
       const html = NewBillUI()
       document.body.innerHTML = html;
