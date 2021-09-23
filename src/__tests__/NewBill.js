@@ -83,7 +83,6 @@ describe("Given I am on NewBill Page", () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
-      // const firestore = null
       const newBill = new NewBill({
         document, onNavigate, firestore: null, localStorage: window.localStorage
       })
@@ -109,7 +108,6 @@ describe("Given I am on NewBill Page", () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
-      // const firestore = null
       const newBill = new NewBill({
         document, onNavigate, firestore: null, localStorage: window.localStorage
       })
@@ -139,7 +137,6 @@ describe("Given I am on NewBill Page", () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
-      // const firestore = null
       const newBill = new NewBill({
         document, onNavigate, firestore: null, localStorage: window.localStorage
       })

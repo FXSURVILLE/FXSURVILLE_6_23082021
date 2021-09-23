@@ -1,5 +1,4 @@
 import { screen, fireEvent } from "@testing-library/dom"
-// import userEvent from '@testing-library/user-event'
 import BillsUI from "../views/BillsUI.js"
 import Bills from "../containers/Bills.js"
 import { ROUTES } from "../constants/routes"
@@ -75,7 +74,6 @@ describe("Given I am connected as an employee", () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
-      // const firestore = null
       const bill = new Bills({
         document, onNavigate, firestore:null, localStorage: window.localStorage
       })
@@ -83,7 +81,6 @@ describe("Given I am connected as an employee", () => {
       $.fn.modal=jest.fn()
 
       const handleClickIconEye = jest.fn(() => bill.handleClickIconEye)
-      // screen.debug()
       const eye = screen.queryAllByTestId('icon-eye')
       eye[0].addEventListener("click", handleClickIconEye)
       fireEvent.click(eye[0])
